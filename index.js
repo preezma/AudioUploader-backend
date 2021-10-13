@@ -3,6 +3,7 @@
  */
 const express = require('express');
 const routes = require('./user/route');
+const cors = require('cors');
 
 const MongoClient = require('mongoose')
 const ObjectID = require('mongodb').ObjectID;
