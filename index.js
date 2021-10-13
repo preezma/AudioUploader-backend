@@ -11,6 +11,20 @@ const ObjectID = require('mongodb').ObjectID;
  * Create Express server && Express Router configuration.
  */
 const server = express();
+const whitelist = null;
+const corsOptions = {
+    exposedHeaders: 'authorization, x-refresh-token, x-token-expiry-time',
+    origin: (origin, callback) => {
+        if (!whitelist || whitelist.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+};
+
+
+server.use(cors(corsOptions));
 server.use('/user', routes);
 
 /**
