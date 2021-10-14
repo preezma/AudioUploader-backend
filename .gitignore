@@ -2,6 +2,10 @@
 
 node_modules/
 
+# Dotenv environment variables file
+.env
+
+
 # Uploaded audios
 
 uploads/*

@@ -8,29 +8,6 @@ http = require('http'),
 
 const { ObjectId } = mongoose.Types;
 
-
-// function streamUpload( userId, userModel){
-//     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-//         const finalName = `${id}_${filename}`
-//         let saveTo = path.resolve('uploads', path.basename(finalName));
-//         file.pipe(fs.createWriteStream(saveTo));
-//         res.locals.audioName = finalName;
-//     });
-//     busboy.on('finish', async function () {
-//         const updateFields = {
-//             audio: res.locals.audioName,
-//             updatedAt: Date.now(),
-//         };
-//         const user = await User.findOneAndUpdate(
-//             { _id: ObjectId(id) },
-//             updateFields,
-//             { new: true },
-//         );
-//         res.status(200).send(user);
-//     });
-//     return req.pipe(busboy);
-// }
-
 /**
  * Add audio
  * @public
@@ -39,9 +16,9 @@ const { ObjectId } = mongoose.Types;
 exports.add = async (req, res) => {
     try {
         const { id } = req.params;
-        const busboy = new Busboy({ headers: req.headers,  }, );
+        const busboy = new Busboy({ headers: req.headers, },);
 
-        busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+        busboy.on('file', function (fieldname, file, filename) {
             const finalName = `${id}_${filename}`
             let saveTo = path.resolve('uploads', path.basename(finalName));
             file.pipe(fs.createWriteStream(saveTo));
@@ -58,6 +35,46 @@ exports.add = async (req, res) => {
                 { new: true },
             );
             res.status(200).send(user);
+        });
+        return req.pipe(busboy);
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ message: "Something went wrong! Please try again" });
+    }
+};
+/**
+ * Change audio
+ * @public
+ */
+
+exports.change = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const busboy = new Busboy({ headers: req.headers});
+
+        busboy.on('file', function (fieldname, file, filename) {
+            const finalName = `${id}_${filename}`;
+            let saveTo = path.resolve('uploads', path.basename(finalName));
+            file.pipe(fs.createWriteStream(saveTo));
+            res.locals.audioName = finalName;
+        });
+        busboy.on('finish', async function () {
+            const updateFields = {
+                audio: res.locals.audioName,
+                updatedAt: Date.now(),
+            };
+            const user = await User.findOne({ _id: ObjectId(id) });
+            console.log(user)
+            if (user.audio) {
+                const filePath = path.resolve('uploads', user.audio)
+                fs.unlinkSync(filePath)
+            }
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: ObjectId(id) },
+                updateFields,
+                { new: true },
+            );
+            res.status(200).send(updatedUser);
         });
         return req.pipe(busboy);
     } catch (error) {

@@ -1,12 +1,13 @@
 /**
  * NPM Module dependencies.
  */
+require('dotenv').config();
 const express = require('express');
 const routes = require('./user/route');
 const cors = require('cors');
 
-const MongoClient = require('mongoose')
-const ObjectID = require('mongodb').ObjectID;
+
+const MongoClient = require('mongoose');
 
 /**
  * Create Express server && Express Router configuration.
@@ -29,14 +30,15 @@ server.use(cors(corsOptions));
 server.use('/user', routes);
 
 /**
- * GET /docs
+ * GET /audio
  */
 server.use('/audio', express.static('uploads'));
 
-const uri = 'mongodb+srv://admin:1234@cluster0.j3rnu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-const port = process.env.PORT || 3004;
+const port = process.env.PORT;
+const uri = process.env.MONGO_URI;
+
 /**
- * Connect Mongo Driver to MongoDB Atlass.
+ * Connect Mongo Driver to MongoDB Atlas.
  */
 let db;
 MongoClient.connect(uri, (err, database) => {
