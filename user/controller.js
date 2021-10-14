@@ -126,3 +126,22 @@ exports.getAllUsers = async (req, res) => {
     return res.status(400).json({ message: 'No users were created yet!' });
   }
 };
+
+/**
+ * Get single user data
+ * @public
+ */
+
+exports.getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const query = { _id: ObjectId(id) };
+    const user = await User.findOne(query);
+    return res.send(user);
+  } catch (error) {
+    return res.status(400).json({ message: 'No user with such Id!' });
+  }
+};
+
+
