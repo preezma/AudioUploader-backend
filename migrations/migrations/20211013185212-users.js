@@ -1,13 +1,13 @@
-
+/*eslint-disable */
 module.exports = {
   async up(db) {
     await db.collection('users').insertMany([{
       name: 'Adam',
       email: 'test@gmail.com',
-      audio: ''
+      audio: '',
     }, {
       name: 'John',
-      email: "john@gmail.com",
+      email: 'john@gmail.com',
       audio: '',
     }, {
       name: 'Noah',
@@ -16,16 +16,15 @@ module.exports = {
     }, {
       name: 'Benjamin',
       email: 'benjamin@gmail.com',
-      audio: ''
+      audio: '',
     }, {
       name: 'James',
-      email: "james@gmail.com",
-      audio: ''
+      email: 'james@gmail.com',
+      audio: '',
     }, {
       name: 'Lucas',
       email: 'lucas@gmail.com',
-      audio: ''
+      audio: '',
     }]);
   },
 };
-

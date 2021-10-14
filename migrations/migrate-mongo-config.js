@@ -1,4 +1,5 @@
 const mongo = require('../config');
+
 const config = {
   mongodb: {
 
@@ -9,14 +10,14 @@ const config = {
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    }
+    },
   },
 
-  migrationsDir: "migrations",
+  migrationsDir: 'migrations',
 
-  changelogCollectionName: "changelog",
+  changelogCollectionName: 'changelog',
 
-  migrationFileExtension: ".js"
+  migrationFileExtension: '.js',
 };
 
 module.exports = config;

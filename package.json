@@ -6,7 +6,7 @@
   "scripts": {
     "prod": "node index.js",
     "dev": "nodemon index.js",
-    "migrate-mongo": "migrate-mongo-config.js"
+    "lint": "./node_modules/.bin/eslint . --ext .js --fix"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,13 @@
   "bugs": {
     "url": "https://github.com/preezma/AudioUploader-backend/issues"
   },
-  "homepage": "https://github.com/preezma/AudioUploader-backend#readme"
+  "homepage": "https://github.com/preezma/AudioUploader-backend#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^1.7.0"
+  }
 }

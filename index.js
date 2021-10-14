@@ -1,13 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 /**
  * NPM Module dependencies.
  */
 require('dotenv').config();
 const express = require('express');
-const routes = require('./user/route');
 const cors = require('cors');
 
-
 const MongoClient = require('mongoose');
+const routes = require('./user/route');
 
 /**
  * Create Express server && Express Router configuration.
@@ -15,16 +16,15 @@ const MongoClient = require('mongoose');
 const server = express();
 const whitelist = null;
 const corsOptions = {
-    exposedHeaders: 'authorization, x-refresh-token, x-token-expiry-time',
-    origin: (origin, callback) => {
-        if (!whitelist || whitelist.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+  exposedHeaders: 'authorization, x-refresh-token, x-token-expiry-time',
+  origin: (origin, callback) => {
+    if (!whitelist || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
-
 
 server.use(cors(corsOptions));
 server.use('/user', routes);
@@ -42,13 +42,12 @@ const uri = process.env.MONGO_URI;
  */
 let db;
 MongoClient.connect(uri, (err, database) => {
-    if (err) {
-        console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
-        process.exit(1);
-    }
-    console.log('connected')
-    db = database;
-    server.listen(port, () => {
-        console.info(`Server started on port ${port}`);
-    });
+  if (err) {
+    console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
+    process.exit(1);
+  }
+  db = database;
+  server.listen(port, () => {
+    console.info(`Server started on port ${port}`);
+  });
 });
